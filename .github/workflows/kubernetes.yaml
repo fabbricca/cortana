@@ -1,0 +1,62 @@
+name: Kubernetes CI
+on:
+  pull_request:
+    paths:
+      - 'apps/**/*.yml'
+      - 'apps/**/*.yaml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      security-events: write
+
+    strategy:
+      matrix:
+        overlay: [dev, staging, prod]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.kube
+            ~/.config/kustomize
+            ~/.cache/conftest
+          key: ${{ runner.os }}-kube-tools-${{ matrix.overlay }}-${{ hashFiles('**/apps/overlays/**/kustomization.yaml') }}
+
+      - name: Setup Kubernetes tools
+        uses: yokawasa/action-setup-kube-tools@v0.11.2
+        with:
+          kubectl:     '1.25.2'
+          kustomize:   '5.0.0'
+          kubeconform: '0.5.0'
+          conftest:    '0.39.0'
+
+      - name: Verify installations
+        run: |
+          kubectl version --client
+          kustomize version
+          kubeconform -v
+          conftest --version
+
+      - name: Validate manifests
+        run: |
+          kustomize build apps/overlays/${{ matrix.overlay }} | kubeconform -verbose
+
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: apps
+          framework: kubernetes
+          output_format: cli,sarif
+          output_file_path: console,results.sarif
