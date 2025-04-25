@@ -73,3 +73,13 @@ resource "talos_cluster_kubeconfig" "this" {
   client_configuration = talos_machine_secrets.this.client_configuration
   node                 = [for k, v in var.node_data.controlplanes : k][0]
 }
+
+terraform {
+  backend "remote" {
+    organization = "cortana"
+
+    workspaces {
+      name = "cortana"
+    }
+  }
+}
