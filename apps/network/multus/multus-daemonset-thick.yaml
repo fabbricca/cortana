@@ -208,7 +208,7 @@ spec:
             - name: host-run-k8s-cni-cncf-io
               mountPath: /run/k8s.cni.cncf.io
             - name: host-run-netns
-              mountPath: /run/netns
+              mountPath: /var/run/netns
               mountPropagation: HostToContainer
             - name: multus-daemon-config
               mountPath: /etc/cni/net.d/multus.d
