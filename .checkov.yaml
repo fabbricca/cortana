@@ -1,2 +1,3 @@
 skip-path:
   - apps/network/multus/install-cni-patch.yaml
+  - apps/network/newt/newt.yaml
