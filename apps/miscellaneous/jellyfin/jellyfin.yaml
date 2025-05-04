@@ -57,11 +57,11 @@ spec:
             type: RuntimeDefault
         resources:
           requests:
-            memory: "128Mi"
-            cpu:    "100m"
+            memory: "512Mi"
+            cpu:    "1G"
           limits:
-            memory: "256Mi"
-            cpu:    "200m"
+            memory: "2Gi"
+            cpu:    "5Gi"
       volumes:
       - name: jellyfin-pvc
         persistentVolumeClaim:
