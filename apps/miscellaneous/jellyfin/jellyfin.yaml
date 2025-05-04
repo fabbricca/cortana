@@ -58,10 +58,10 @@ spec:
         resources:
           requests:
             memory: "512Mi"
-            cpu:    "1G"
+            cpu:    "512Mi"
           limits:
             memory: "2Gi"
-            cpu:    "5Gi"
+            cpu:    "1Gi"
       volumes:
       - name: jellyfin-pvc
         persistentVolumeClaim:
