@@ -5,3 +5,4 @@ resources:
   - multus
   - metallb
   - newt
+  - nginx-ingress

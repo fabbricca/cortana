@@ -40,6 +40,8 @@ spec:
         - name: jellyfin-pvc
           mountPath: /media
           subPath: jellyfin/media
+        - name: tmp-volume
+          mountPath: /tmp
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
@@ -64,3 +66,5 @@ spec:
       - name: jellyfin-pvc
         persistentVolumeClaim:
           claimName: jellyfin-pvc
+      - name: tmp-volume
+        emptyDir: {}
