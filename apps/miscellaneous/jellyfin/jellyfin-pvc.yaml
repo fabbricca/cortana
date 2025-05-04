@@ -4,10 +4,9 @@ metadata:
   name: jellyfin-pvc
   namespace: media
 spec:
+  storageClassName: nfs-csi
   accessModes:
     - ReadWriteMany
   resources:
     requests:
       storage: 600Gi
-  storageClassName: ""
-  volumeName: jellyfin-pv

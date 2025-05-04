@@ -33,13 +33,13 @@ spec:
         volumeMounts:
         - name: jellyfin-pvc
           mountPath: /config
-          subPath: config
+          subPath: jellyfin/config
         - name: jellyfin-pvc
           mountPath: /cache
-          subPath: cache
+          subPath: jellyfin/cache
         - name: jellyfin-pvc
           mountPath: /media
-          subPath: media
+          subPath: jellyfin/media
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
