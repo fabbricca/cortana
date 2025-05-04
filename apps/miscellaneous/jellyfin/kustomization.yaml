@@ -5,3 +5,4 @@ resources:
   - jellyfin-pvc.yaml
   - jellyfin.yaml
   - jellyfin-service.yaml
+  - jellyfin-ingress.yaml
