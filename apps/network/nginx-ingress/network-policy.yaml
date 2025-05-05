@@ -25,7 +25,7 @@ items:
   - apiVersion: networking.k8s.io/v1
     kind: NetworkPolicy
     metadata:
-      name: allow-newt-tunnel-to-ingress-nginx
+      name: allow-ingress-nginx-to-jellyfin
       namespace: ingress-nginx
     spec:
       podSelector:
@@ -44,7 +44,12 @@ items:
       - to:
         - namespaceSelector:
             matchLabels:
-              app: jellyfin
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              k8s-app: coredns
         ports:
+        - protocol: UDP
+          port: 53
         - protocol: TCP
-          port: 80
+          port: 53
