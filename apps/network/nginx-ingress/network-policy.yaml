@@ -9,14 +9,14 @@ items:
     spec:
       podSelector:
         matchLabels:
-          app.kubernetes.io/name: ingress-nginx
+          kubernetes.io/metadata.name: ingress-nginx
       policyTypes:
       - Ingress
       ingress:
       - from:
         - namespaceSelector:
             matchLabels:
-              app: newt-tunnel
+              kubernetes.io/metadata.name: newt
         ports:
         - protocol: TCP
           port: 80
@@ -30,14 +30,14 @@ items:
     spec:
       podSelector:
         matchLabels:
-          app.kubernetes.io/name: ingress-nginx
+          kubernetes.io/metadata.name: ingress-nginx
       policyTypes:
       - Egress
       egress:
       - to:
         - namespaceSelector:
             matchLabels:
-              app: jellyfin
+              kubernetes.io/metadata.name: media
         ports:
         - protocol: TCP
           port: 80
