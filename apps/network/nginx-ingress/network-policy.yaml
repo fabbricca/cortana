@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: List
+items:
+  - apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
+      name: allow-newt-tunnel-to-ingress-nginx
+      namespace: ingress-nginx
+    spec:
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: ingress-nginx
+      policyTypes:
+      - Ingress
+      ingress:
+      - from:
+        - namespaceSelector:
+            matchLabels:
+              app: newt-tunnel
+        ports:
+        - protocol: TCP
+          port: 80
+        - protocol: TCP
+          port: 443
+  - apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
+      name: allow-newt-tunnel-to-ingress-nginx
+      namespace: ingress-nginx
+    spec:
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: ingress-nginx
+      policyTypes:
+      - Egress
+      egress:
+      - to:
+        - namespaceSelector:
+            matchLabels:
+              app: jellyfin
+        ports:
+        - protocol: TCP
+          port: 80
+      - to:
+        - namespaceSelector:
+            matchLabels:
+              app: jellyfin
+        ports:
+        - protocol: TCP
+          port: 80
