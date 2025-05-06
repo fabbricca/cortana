@@ -99,3 +99,33 @@ items:
           port: 53
         - protocol: TCP
           port: 53
+  - apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
+      name: allow-jellyfin-traffic
+      namespace: media
+    spec:
+      podSelector:
+        matchLabels:
+          app: jellyfin
+      policyTypes:
+      - Egress
+      egress:
+      - to:
+        - ipBlock:
+              cidr: 10.0.0.0/24
+        ports:
+          - protocol: TCP
+            port: 53
+          - protocol: TCP
+            port: 80
+          - protocol: TCP
+            port: 8096
+          - protocol: TCP
+            port: 8920
+          - protocol: UDP
+            port: 53
+          - protocol: UDP
+            port: 1900
+          - protocol: UDP
+            port: 7359
