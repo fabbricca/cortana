@@ -3,6 +3,5 @@ kind: Kustomization
 resources:
   - https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.0.0/deploy/crds.yaml
   - namespace.yaml
-  - network-policy.yaml
   - helmrelease.yaml
   - helmrepository.yaml
