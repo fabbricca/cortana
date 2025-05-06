@@ -19,7 +19,15 @@ items:
               kubernetes.io/metadata.name: ingress-nginx
         ports:
         - protocol: TCP
+          port: 80
+        - protocol: TCP
           port: 8096
+        - protocol: TCP
+          port: 8920
+        - protocol: UDP
+          port: 1900
+        - protocol: UDP
+          port: 7359
   - apiVersion: networking.k8s.io/v1
     kind: NetworkPolicy
     metadata:
@@ -55,16 +63,27 @@ items:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: ingress-nginx
+          podSelector: {}
         ports:
         - protocol: TCP
           port: 80
+        - protocol: TCP
+          port: 8096
+        - protocol: TCP
+          port: 8920
+        - protocol: UDP
+          port: 1900
+        - protocol: UDP
+          port: 7359
   - apiVersion: networking.k8s.io/v1
     kind: NetworkPolicy
     metadata:
       name: allow-jellyfin-to-coredns
       namespace: media
     spec:
-      podSelector: {}
+      podSelector:
+        matchLabels:
+          app: jellyfin
       policyTypes:
       - Egress
       egress:
