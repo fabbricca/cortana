@@ -44,5 +44,6 @@ spec:
     k8sServicePort: 7445                          
     gatewayAPI:
       enabled: true
+      createGatewayClass: true
       enableAlpn: true
       enableAppProtocol: true
