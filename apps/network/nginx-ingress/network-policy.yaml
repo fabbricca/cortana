@@ -25,6 +25,27 @@ items:
   - apiVersion: networking.k8s.io/v1
     kind: NetworkPolicy
     metadata:
+      name: allow-flux-to-nginx-webhook
+      namespace: ingress-nginx
+    spec:
+      podSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: ingress-nginx
+      policyTypes:
+      - Ingress
+      ingress:
+      - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: flux-system
+        ports:
+        - protocol: TCP
+          port: 80
+        - protocol: TCP
+          port: 443
+  - apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
       name: allow-ingress-nginx-to-jellyfin
       namespace: ingress-nginx
     spec:
