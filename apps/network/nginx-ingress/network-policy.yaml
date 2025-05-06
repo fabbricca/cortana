@@ -68,7 +68,7 @@ items:
     spec:
       podSelector:
         matchLabels:
-          kubernetes.io/metadata.name: ingress-nginx
+          kubernetes.io/name: ingress-nginx
       policyTypes:
       - Egress
       egress:
@@ -91,8 +91,8 @@ items:
       namespace: ingress-nginx
     spec:
       podSelector:
-      matchLabels:
-        app.kubernetes.io/name: ingress-nginx
+        matchLabels:
+          app.kubernetes.io/name: ingress-nginx
       policyTypes:
       - Egress
       egress:
@@ -103,6 +103,24 @@ items:
           podSelector:
             matchLabels:
               app.kubernetes.io/component: controller
+        ports:
+        - protocol: TCP
+          port: 443
+  - apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
+      name: allow-admission-job-egress
+      namespace: ingress-nginx
+    spec:
+      podSelector:
+        matchLabels:
+          job-name: ingress-nginx-admission-create
+      policyTypes:
+      - Egress
+      egress:
+      - to:
+        - ipBlock:
+            cidr: 10.96.0.1/32
         ports:
         - protocol: TCP
           port: 443
