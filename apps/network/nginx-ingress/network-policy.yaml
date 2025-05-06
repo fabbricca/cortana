@@ -28,9 +28,7 @@ items:
       name: allow-flux-to-nginx-webhook
       namespace: ingress-nginx
     spec:
-      podSelector:
-        matchLabels:
-          kubernetes.io/metadata.name: ingress-nginx
+      podSelector: {}
       policyTypes:
       - Ingress
       ingress:

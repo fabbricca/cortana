@@ -26,9 +26,7 @@ items:
       name: allow-flux-to-jellyfin
       namespace: media
     spec:
-      podSelector:
-        matchLabels:
-          app: jellyfin
+      podSelector: {}
       policyTypes:
       - Ingress
       ingress:
