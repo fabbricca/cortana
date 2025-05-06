@@ -43,7 +43,8 @@ resource "talos_machine_configuration_apply" "controlplane" {
       [
         file("${path.module}/files/cp-scheduling.yaml"),
         file("${path.module}/files/local-path-provisioner-mounts.yaml"),
-        file("${path.module}/files/longhorn-mounts.yaml")
+        file("${path.module}/files/longhorn-mounts.yaml"),
+        file("${path.module}/files/cilium-prerequisite.yaml")
       ]
     )
 }
