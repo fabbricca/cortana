@@ -1,131 +1,82 @@
 apiVersion: v1
 kind: List
-items: 
-  - apiVersion: networking.k8s.io/v1
-    kind: NetworkPolicy
+items:
+  - apiVersion: cilium.io/v2
+    kind: CiliumNetworkPolicy
     metadata:
       name: allow-ingress-nginx-to-jellyfin
       namespace: media
     spec:
-      podSelector:
+      endpointSelector:
         matchLabels:
           app: jellyfin
-      policyTypes:
-      - Ingress
       ingress:
-      - from:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: ingress-nginx
-        ports:
-        - protocol: TCP
-          port: 80
-        - protocol: TCP
-          port: 8096
-        - protocol: TCP
-          port: 8920
-        - protocol: UDP
-          port: 1900
-        - protocol: UDP
-          port: 7359
-  - apiVersion: networking.k8s.io/v1
-    kind: NetworkPolicy
+      - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: ingress-nginx
+        toPorts:
+        - ports:
+          - port: "80"
+            protocol: TCP
+          - port: "8096"
+            protocol: TCP
+
+  - apiVersion: cilium.io/v2
+    kind: CiliumNetworkPolicy
     metadata:
       name: allow-flux-system-to-jellyfin
       namespace: media
     spec:
-      podSelector: {}
-      policyTypes:
-      - Ingress
-      ingress:
-      - from:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: flux-system
-        ports:
-        - protocol: TCP
-          port: 80
-        - protocol: TCP
-          port: 443
-  - apiVersion: networking.k8s.io/v1
-    kind: NetworkPolicy
-    metadata:
-      name: allow-jellyfin-to-ingress-nginx
-      namespace: media
-    spec:
-      podSelector:
+      endpointSelector:
         matchLabels:
           app: jellyfin
-      policyTypes:
-      - Egress
-      egress:
-      - to:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: ingress-nginx
-          podSelector: {}
-        ports:
-        - protocol: TCP
-          port: 80
-        - protocol: TCP
-          port: 8096
-        - protocol: TCP
-          port: 8920
-        - protocol: UDP
-          port: 1900
-        - protocol: UDP
-          port: 7359
-  - apiVersion: networking.k8s.io/v1
-    kind: NetworkPolicy
+      ingress:
+      - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: flux-system
+        toPorts:
+        - ports:
+          - port: "80"
+            protocol: TCP
+          - port: "443"
+            protocol: TCP
+
+  - apiVersion: cilium.io/v2
+    kind: CiliumNetworkPolicy
     metadata:
       name: allow-jellyfin-to-coredns
       namespace: media
     spec:
-      podSelector:
+      endpointSelector:
         matchLabels:
           app: jellyfin
-      policyTypes:
-      - Egress
       egress:
-      - to:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: kube-system
-          podSelector:
-            matchLabels:
+        - toEndpoints:
+          - matchLabels:
+              k8s:io.kubernetes.pod.namespace: kube-system
               k8s-app: coredns
-        ports:
-        - protocol: UDP
-          port: 53
-        - protocol: TCP
-          port: 53
-  - apiVersion: networking.k8s.io/v1
-    kind: NetworkPolicy
+          toPorts:
+            - ports:
+              - port: "53"
+                protocol: UDP
+              - port: "53"
+                protocol: TCP
+  
+  - apiVersion: cilium.io/v2
+    kind: CiliumNetworkPolicy
     metadata:
-      name: allow-jellyfin-traffic
+      name: allow-jellyfin-to-fqdns
       namespace: media
     spec:
-      podSelector:
+      endpointSelector:
         matchLabels:
           app: jellyfin
-      policyTypes:
-      - Egress
       egress:
-      - to:
-        - ipBlock:
-              cidr: 10.0.0.0/24
-        ports:
-          - protocol: TCP
-            port: 53
-          - protocol: TCP
-            port: 80
-          - protocol: TCP
-            port: 8096
-          - protocol: TCP
-            port: 8920
-          - protocol: UDP
-            port: 53
-          - protocol: UDP
-            port: 1900
-          - protocol: UDP
-            port: 7359
+        - toFQDNs:
+            - matchName: "api.themoviedb.org"
+            - matchName: "api.tmdb.org"
+            - matchName: "www.omdbapi.com"
+          toPorts:
+            - ports:
+                - port: "443"
+                  protocol: TCP
