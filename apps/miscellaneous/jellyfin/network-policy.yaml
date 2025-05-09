@@ -44,7 +44,7 @@ items:
   - apiVersion: cilium.io/v2
     kind: CiliumNetworkPolicy
     metadata:
-      name: allow-jellyfin-to-coredns
+      name: allow-jellyfin-to-kubedns
       namespace: media
     spec:
       endpointSelector:
@@ -54,13 +54,11 @@ items:
         - toEndpoints:
           - matchLabels:
               k8s:io.kubernetes.pod.namespace: kube-system
-              k8s-app: coredns
+              k8s-app: kube-dns
           toPorts:
             - ports:
               - port: "53"
-                protocol: UDP
-              - port: "53"
-                protocol: TCP
+                protocol: ANY
   
   - apiVersion: cilium.io/v2
     kind: CiliumNetworkPolicy
@@ -78,5 +76,7 @@ items:
             - matchName: "www.omdbapi.com"
           toPorts:
             - ports:
-                - port: "443"
-                  protocol: TCP
+              - port: "80"
+                protocol: TCP
+              - port: "443"
+                protocol: TCP
