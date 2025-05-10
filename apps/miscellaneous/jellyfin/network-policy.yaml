@@ -58,7 +58,12 @@ items:
           toPorts:
             - ports:
               - port: "53"
-                protocol: ANY
+                protocol: UDP
+              - port: "53"
+                protocol: TCP
+              rules:
+                dns:
+                - matchPattern: "*"
   
   - apiVersion: cilium.io/v2
     kind: CiliumNetworkPolicy
@@ -71,9 +76,11 @@ items:
           app: jellyfin
       egress:
         - toFQDNs:
-            - matchName: "api.themoviedb.org"
-            - matchName: "api.tmdb.org"
-            - matchName: "www.omdbapi.com"
+            - matchPattern: "*.themoviedb.org"
+            - matchPattern: "*.tmdb.org"
+            - matchPattern: "*.omdbapi.com"
+            - matchPattern: "*.fanart.tv"
+            - matchPattern: "*.github.com"
           toPorts:
             - ports:
               - port: "80"
