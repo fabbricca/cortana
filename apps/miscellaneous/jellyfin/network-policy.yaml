@@ -84,6 +84,7 @@ items:
             - matchPattern: "*.githubusercontent.com"
             - matchPattern: "*.jellyfin.org"
             - matchPattern: "*.mirror.jellyfin.org"
+            - matchPattern: "api.opensubtitles.com"
             - matchName: "jellyfin.org"
             - matchName: "github.com"
           toPorts:
