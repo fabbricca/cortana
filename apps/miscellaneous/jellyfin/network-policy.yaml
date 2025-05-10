@@ -83,6 +83,9 @@ items:
             - matchPattern: "*.github.com"
             - matchPattern: "*.githubusercontent.com"
             - matchPattern: "*.jellyfin.org"
+            - matchPattern: "*.mirror.jellyfin.org"
+            - matchName: "jellyfin.org"
+            - matchName: "github.com"
           toPorts:
             - ports:
               - port: "80"
