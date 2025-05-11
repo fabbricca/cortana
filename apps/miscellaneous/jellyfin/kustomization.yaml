@@ -7,3 +7,5 @@ resources:
   - jellyfin.yaml
   - jellyfin-service.yaml
   - jellyfin-ingress.yaml
+  - jellyfin-hpa.yaml
+  - jellyfin-pdb.yaml
