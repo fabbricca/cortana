@@ -28,7 +28,6 @@ spec:
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
-        fsGroup: 1000
       containers:
       - name: jellyfin
         image: jellyfin/jellyfin@sha256:d20137292584fc6188532d80dd5a56cc4bd1c6055730f6b7552499ee22ab92c2
@@ -56,8 +55,7 @@ spec:
             add:
               - CHOWN
           runAsNonRoot: true
-          runAsUser: 1000
-          fsGroup: 1000                           
+          runAsUser: 1000                          
           seccompProfile:
             type: RuntimeDefault
         resources:
@@ -70,9 +68,10 @@ spec:
         livenessProbe:
           httpGet:
             path: /health
-            port: 8080
-          initialDelaySeconds: 20
+            port: 8096
+          initialDelaySeconds: 60
           periodSeconds: 20
+          timeoutSeconds: 5
       volumes:
       - name: jellyfin-pvc
         persistentVolumeClaim:
