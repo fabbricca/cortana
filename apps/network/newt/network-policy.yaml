@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: List
+items:
+  - apiVersion: cilium.io/v2
+    kind: CiliumNetworkPolicy
+    metadata:
+      name: allow-newt-to-ingress-nginx
+      namespace: newt
+    spec:
+      endpointSelector:
+        matchLabels:
+          app: newt-tunnel
+      egress:
+        - toEndpoints:
+          - matchLabels:
+              k8s:io.kubernetes.pod.namespace: ingress-nginx
+          toPorts:
+            - ports:
+              - port: "80"
+                protocol: TCP
+              - port: "443"
+                protocol: TCP
