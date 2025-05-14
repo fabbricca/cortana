@@ -41,10 +41,10 @@ spec:
             - name: CUSTOM_HTTPS_PORT
               value: "8443"
           volumeMounts:
-            - name: vaults
+            - name: obsidian-pvc
               mountPath: /vaults
               subPath: obsidian/vaults
-            - name: config
+            - name: obsidian-pvc
               mountPath: /config
               subPath: obsidian/config
           securityContext:
