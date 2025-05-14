@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: List
+items:
+  - apiVersion: cilium.io/v2
+    kind: CiliumNetworkPolicy
+    metadata:
+      name: allow-newt-to-ingress-nginx
+      namespace: ingress-nginx
+    spec:
+      endpointSelector:
+        matchLabels:
+          k8s:io.kubernetes.pod.namespace: ingress-nginx
+      ingress:
+      - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: newt
+            app: newt-tunnel
+        toPorts:
+        - ports:
+          - port: "80"
+            protocol: TCP
+          - port: "443"
+            protocol: TCP
+  - apiVersion: cilium.io/v2
+    kind: CiliumNetworkPolicy
+    metadata:
+      name: allow-ingress-nginx-to-jellyfin
+      namespace: ingress-nginx
+    spec:
+      endpointSelector:
+        matchLabels:
+          k8s:io.kubernetes.pod.namespace: ingress-nginx
+      egress:
+      - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: media
+            app: jellyfin
+        toPorts:
+        - ports:
+          - port: "80"
+            protocol: TCP
+          - port: "8096"
+            protocol: TCP
