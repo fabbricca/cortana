@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: List
+items:
+  - apiVersion: cilium.io/v2
+    kind: CiliumNetworkPolicy
+    metadata:
+      name: allow-ingress-nginx-to-obsidian
+      namespace: media
+    spec:
+      endpointSelector:
+        matchLabels:
+          app: obsidian
+      ingress:
+      - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: ingress-nginx
+        toPorts:
+        - ports:
+          - port: "80"
+            protocol: TCP
+
+  - apiVersion: cilium.io/v2
+    kind: CiliumNetworkPolicy
+    metadata:
+      name: allow-flux-system-to-obsidian
+      namespace: obsidian
+    spec:
+      endpointSelector:
+        matchLabels:
+          app: obsidian
+      ingress:
+      - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: flux-system
+        toPorts:
+        - ports:
+          - port: "80"
+            protocol: TCP
+          - port: "443"
+            protocol: TCP
+
+  - apiVersion: cilium.io/v2
+    kind: CiliumNetworkPolicy
+    metadata:
+      name: allow-obsidian-to-kubedns
+      namespace: obsidian
+    spec:
+      endpointSelector:
+        matchLabels:
+          app: obsidian
+      egress:
+        - toEndpoints:
+          - matchLabels:
+              k8s:io.kubernetes.pod.namespace: kube-system
+              k8s-app: kube-dns
+          toPorts:
+            - ports:
+              - port: "53"
+                protocol: UDP
+              - port: "53"
+                protocol: TCP
+              rules:
+                dns:
+                - matchPattern: "*"
+  
+  - apiVersion: cilium.io/v2
+    kind: CiliumNetworkPolicy
+    metadata:
+      name: allow-obsidian-to-fqdns
+      namespace: obsidian
+    spec:
+      endpointSelector:
+        matchLabels:
+          app: obsidian
+      egress:
+        - toFQDNs:
+            - matchPattern: "*.github.com"
+            - matchPattern: "*.githubusercontent.com"
+            - matchName: "github.com"
+          toPorts:
+            - ports:
+              - port: "80"
+                protocol: TCP
+              - port: "443"
+                protocol: TCP
