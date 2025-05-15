@@ -41,18 +41,6 @@ items:
     kind: NetworkPolicy
     metadata:
       name: default-deny-all
-      namespace: obsidian
-    spec:
-      podSelector: {}
-      policyTypes:
-      - Ingress
-      - Egress
-      ingress: []
-      egress: []
-  - apiVersion: networking.k8s.io/v1
-    kind: NetworkPolicy
-    metadata:
-      name: default-deny-all
       namespace: newt
     spec:
       podSelector: {}
