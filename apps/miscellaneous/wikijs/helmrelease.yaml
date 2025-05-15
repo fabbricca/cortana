@@ -20,7 +20,14 @@ spec:
   upgrade:
     remediation:
       retries: 3
-  valuesFrom:
-    - kind: Secret
-      name: wikijs-wikijs
-      valuesKey: config.yml
+  values:
+    postgresql:
+      enabled: false
+      postgresqlHost: 10.0.0.15
+      postgresqlPort: 5432
+      postgresqlUser: wikijs
+      postgresqlDatabase: wikijs
+      existingSecret: wikijs-wikijs
+    persistence:
+      enabled: true
+      existingClaim: wikijs-pvc
