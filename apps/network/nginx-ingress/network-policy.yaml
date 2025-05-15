@@ -41,3 +41,23 @@ items:
             protocol: TCP
           - port: "8096"
             protocol: TCP
+  - apiVersion: cilium.io/v2
+    kind: CiliumNetworkPolicy
+    metadata:
+      name: allow-ingress-nginx-to-wikijs
+      namespace: ingress-nginx
+    spec:
+      endpointSelector:
+        matchLabels:
+          k8s:io.kubernetes.pod.namespace: ingress-nginx
+      egress:
+      - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: wikijs
+            app: wikijs
+        toPorts:
+        - ports:
+          - port: "80"
+            protocol: TCP
+          - port: "3000"
+            protocol: TCP
