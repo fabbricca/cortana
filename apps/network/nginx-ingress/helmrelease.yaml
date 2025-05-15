@@ -6,11 +6,8 @@ metadata:
 spec:
   interval: 15m
   install:
-    createNamespace: true
-    crds: Create
-  upgrade:
-    remediation:
-      retries: 1
+    createNamespace: false
+    crds: CreateReplace
   chart:
     spec:
       chart: ingress-nginx
@@ -27,6 +24,7 @@ spec:
       metrics:
         enabled: true
       admissionWebhooks:
+        hostNetwork: true
         enabled: true
         patch:
           enabled: true
