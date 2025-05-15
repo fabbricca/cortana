@@ -23,5 +23,5 @@ spec:
       retries: 3
   valuesFrom:
     - kind: Secret
-      name: wikijs-values
+      name: wikijs-secret
       valuesKey: values.yaml
