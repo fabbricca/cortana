@@ -4,7 +4,7 @@ metadata:
   name: ingress-nginx
   namespace: ingress-nginx
 spec:
-  interval: 15m
+  interval: 5m
   chart:
     spec:
       chart: ingress-nginx
@@ -13,7 +13,10 @@ spec:
         kind: HelmRepository
         name: ingress-nginx
         namespace: ingress-nginx
-      interval: 24h
+  install:
+    createNamespace: true
+    crds:
+      policy: Create
   values:
     controller:
       replicaCount: 2
