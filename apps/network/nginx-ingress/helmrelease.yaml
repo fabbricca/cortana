@@ -19,10 +19,6 @@ spec:
       replicaCount: 2
       service:
         type: LoadBalancer
-      reportIngressStatus: true
-      publishService:
-        enabled: true
-        pathOverride: ingress-nginx/ingress-nginx-controller
       metrics:
         enabled: true
       admissionWebhooks:
