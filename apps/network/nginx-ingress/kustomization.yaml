@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   - https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.12.2/deploy/static/provider/baremetal/deploy.yaml
   - https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.0.0/deploy/crds.yaml
-  - namespace.yaml
   - helmrelease.yaml
   - helmrepository.yaml
   - network-policy.yaml
