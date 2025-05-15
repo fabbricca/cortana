@@ -4,10 +4,7 @@ metadata:
   name: ingress-nginx
   namespace: ingress-nginx
 spec:
-  interval: 5m
-  install:
-    createNamespace: true
-    crds: Create
+  interval: 15m
   chart:
     spec:
       chart: ingress-nginx
@@ -27,5 +24,3 @@ spec:
         enabled: true
         patch:
           enabled: true
-    defaultBackend:
-      enabled: false
