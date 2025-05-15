@@ -23,4 +23,4 @@ spec:
   valuesFrom:
     - kind: Secret
       name: wikijs-wikijs
-      valuesKey: values.yaml
+      valuesKey: config.yml
