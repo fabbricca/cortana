@@ -18,13 +18,13 @@ spec:
         namespace: ingress-nginx
   values:
     controller:
+      hostNetwork: true
       replicaCount: 2
       service:
         type: LoadBalancer
       metrics:
         enabled: true
       admissionWebhooks:
-        hostNetwork: true
         enabled: true
         patch:
           enabled: true
